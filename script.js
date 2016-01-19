@@ -72,9 +72,6 @@ function initMap() {
             src: feature.properties['image'],
             width: '100%'
           });
-          var audio = $('<audio></audio>',
-          	src: feature.properties['audio'],
-      		});
           var source = $('<a>', {
             text: feature.properties['source-credit'],
             href: feature.properties['source-link'],
