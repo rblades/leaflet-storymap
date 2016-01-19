@@ -8,6 +8,7 @@
                  "marker-size": "medium",
                  "marker-symbol": "",
                  "description": "cats",
+                 "audio": "<audio src="http://developer.mozilla.org/@api/deki/files/2926/=AudioTest_(1).ogg" autoplay></audio>"
                  },
                  "geometry": {
                  "type": "Point",
