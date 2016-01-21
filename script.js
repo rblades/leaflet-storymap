@@ -72,14 +72,28 @@ function initMap() {
             src: feature.properties['image'],
             width: '100%'
           });
-          var audio = $('<audio></audio>',
-          	src: feature.properties['audio'],
-      		});
           var source = $('<a>', {
             text: feature.properties['source-credit'],
             href: feature.properties['source-link'],
             target: "_blank",
             class: 'source'
+          });
+          var audioDescription = $('<p></p>', {
+            text: feature.properties['audioDescription'],
+            class: 'audio-text'
+          });
+          var audio = $('<audio></audio>', {
+            src: feature.properties['audio'],
+            preload: 'none',
+            id: 'soundobj'
+          });
+          var button = $('<button></button>', {
+            type: 'button',
+            class: 'btn',
+            onClick: 'EvalSound('id', this)'
+          });
+          var span = $('<span></span>', {
+            class: 'glyphicon-play'
           });
           var description = $('<p></p>', {
             text: feature.properties['description'],
@@ -89,8 +103,10 @@ function initMap() {
             id: 'container' + feature.properties['id'],
             class: 'image-container'
           });
-          container.append(chapter).append(image).append(source).append(description);
+          container.append(chapter).append(image).append(source).append(audioDescription).append(audio).append(button).append(span).append(description);
+          button.prepend(span);
           $('#contents').append(container);
+
           // Watch the current scroll postion for scroll-driven map navigation!
           var areaHeight = $('.image-container').height() + 50;
           var areaTop = (feature.properties['id']-1) * areaHeight - 50; // -50 is a minor adjustment
