@@ -30,7 +30,7 @@ function initMap() {
   var lightAll = new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
   }).addTo(map); //this displays layer by default
-  controlLayers.addBaseLayer(lightAll, 'CartoDB LightAll');
+  controlLayers.addBaseLayer(lightAll, 'Pembroke Today');
 
   // Esri satellite map from http://leaflet-extras.github.io/leaflet-providers/preview/
   var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -38,16 +38,11 @@ function initMap() {
   });
   controlLayers.addBaseLayer(Esri_WorldImagery, 'Esri Satellite');
 
-  // tileLayer.WMS as a baselayer - see http://leafletjs.com/reference.html#tilelayer-wms
-  // UConn MAGIC WMS settings - see http://geoserver.lib.uconn.edu:8080/geoserver/web/?wicket:bookmarkablePage=:org.geoserver.web.demo.MapPreviewPage
-  var aerial1934 = new L.tileLayer.wms("http://geoserver.lib.uconn.edu:8080/geoserver/MAGIC/wms?", {
-    layers: 'MAGIC:1934 Connecticut Aerial Photography',
-    format: 'image/png',
-    version: '1.1.0',
-    transparent: true,
-    attribution: '1934 <a href="http://magic.library.uconn.edu">MAGIC UConn</a> and <a href="http://cslib.org">CSL</a>'
+  // Harvard Map Warper Pemb 1970
+  var Pemb1970 = new L.tileLayer('http://warp.worldmap.harvard.edu/maps/tile/5310/{z}/{x}/{y}.png', {
+    attribution: '<a href="http://warp.worldmap.harvard.edu/</a>'
   });
-  controlLayers.addBaseLayer(aerial1934, 'CT Aerial 1934');
+  controlLayers.addBaseLayer(Pemb1970, 'Pembroke 1970');
 
   // *GET THE GEOJSON
   $.getJSON('data.geojson', function(data) {
@@ -84,16 +79,8 @@ function initMap() {
           });
           var audio = $('<audio></audio>', {
             src: feature.properties['audio'],
-            preload: 'none',
-            id: 'soundobj'
-          });
-          var button = $('<button></button>', {
-            type: 'button',
-            class: 'btn',
-            onClick: 'EvalSound('id', this)'
-          });
-          var span = $('<span></span>', {
-            class: 'glyphicon-play'
+            controls: 'controls',
+            preload: 'auto',
           });
           var description = $('<p></p>', {
             text: feature.properties['description'],
@@ -103,10 +90,8 @@ function initMap() {
             id: 'container' + feature.properties['id'],
             class: 'image-container'
           });
-          container.append(chapter).append(image).append(source).append(audioDescription).append(audio).append(button).append(span).append(description);
-          button.prepend(span);
+          container.append(chapter).append(image).append(source).append(audioDescription).append(audio).append(description);
           $('#contents').append(container);
-
           // Watch the current scroll postion for scroll-driven map navigation!
           var areaHeight = $('.image-container').height() + 50;
           var areaTop = (feature.properties['id']-1) * areaHeight - 50; // -50 is a minor adjustment
